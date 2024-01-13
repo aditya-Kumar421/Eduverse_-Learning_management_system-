@@ -4,11 +4,10 @@ from .models import Course, Comment, CourseSection, Episode, Cart
 from users.serializers import UserSerializer
 
 class CourseDisplaySerializer(ModelSerializer):
-    student_no = serializers.IntegerField(source='get_enrolled_student')
 
     class Meta:
         model = Course
-        fields = ["course_uuid", "title", "student_no", "author", "price","image_url"]
+        fields = ["course_uuid", "title", "author", "price","image_url"]
            
 class CommentSerializer(ModelSerializer):
     user = UserSerializer(read_only=True)
@@ -43,7 +42,6 @@ class CourseSectionSerializer(ModelSerializer):
 class CourseSerializer(ModelSerializer):
     comments=CommentSerializer(many=True)
     course_section=CourseSectionSerializer(many=True)
-    student_no=serializers.IntegerField(source='get_enrolled_student')
     total_lectures=serializers.IntegerField(source='get_total_lectures')
     total_duration=serializers.CharField(source='total_course_length')
     class Meta:
@@ -53,7 +51,6 @@ class CourseSerializer(ModelSerializer):
         ]
 
 class CourseListSerailizer(ModelSerializer):
-    student_no=serializers.IntegerField(source='get_enrolled_student')
     description=serializers.CharField(source='get_brief_description')
     total_lectures=serializers.IntegerField(source='get_total_lectures')
     class Meta:
@@ -61,7 +58,6 @@ class CourseListSerailizer(ModelSerializer):
         fields =[
             'course_uuid',
             'title',
-            'student_no',
             'author',
             'price',
             'image_url',

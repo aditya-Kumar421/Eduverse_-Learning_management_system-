@@ -35,10 +35,6 @@ class Course(models.Model):
     def get_brief_description(self):
         return self.description[:100]
     
-    def get_enrolled_student(self):
-        students =get_user_model().objects.filter(paid_courses=self)
-        return len(students)
-    
     def get_total_lectures(self):
         lectures=0
         for section in self.course_section.all():
