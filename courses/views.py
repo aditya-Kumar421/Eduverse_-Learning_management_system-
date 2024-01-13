@@ -51,14 +51,10 @@ class SectorCourse(APIView):
         sector_courses=sector[0].related_course.all()
         serializer=CourseListSerailizer(sector_courses, many=True)
 
-        total_students=0
-        for course in sector_courses:
-            total_students+=course.get_enrolled_student()
 
         return Response({
             'data':serializer.data,
             'sector_name': sector[0].name,
-            'total_students':total_students,
             },status=status.HTTP_200_OK )
     
 class SearchCourse(APIView):

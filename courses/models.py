@@ -13,9 +13,6 @@ class Sector(models.Model):
     related_course=models.ManyToManyField('course',  blank=True)
     sector_image_url = models.URLField(default = 'https://www.eduversesummit.org/wp-content/uploads/2023/10/eduverse-logo-without-dates-420x323.png')
     
-    def get_image_absolute_url(self):
-        return 'https://courses-eduverse.onrender.com'+self.sector_image.url
-
     def __str__(self):
         return self.name
     
