@@ -10,8 +10,6 @@ class CourseDisplaySerializer(ModelSerializer):
         fields = ["course_uuid", "title", "author", "price","image_url"]
            
 class CommentSerializer(ModelSerializer):
-    user = UserSerializer(read_only=True)
-
     class Meta:
         model=Comment
         exclude=[

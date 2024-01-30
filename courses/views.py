@@ -5,9 +5,11 @@ from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+# from rest_framework.generics import GenericAPIView
 
 from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.db.models import Q
+
 
 class CoursesHomeView(APIView):
     def get(self, request, *args, **kwargs):
@@ -53,8 +55,8 @@ class SectorCourse(APIView):
 
 
         return Response({
-            'data':serializer.data,
             'sector_name': sector[0].name,
+            'data':serializer.data,
             },status=status.HTTP_200_OK )
     
 class SearchCourse(APIView):
@@ -63,7 +65,7 @@ class SearchCourse(APIView):
         matches=Course.objects.filter(Q(title__icontains=search_term))     
         serializer=CourseListSerailizer(matches, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
-
+    
 class AddComment(APIView):
     def post(self, request, course_uuid):
         try:
@@ -79,8 +81,8 @@ class AddComment(APIView):
         serializer = CommentSerializer(data=content)
 
         if serializer.is_valid():
-            user = User.username 
-            comment = serializer.save(user=user)
+            # user = User.username 
+            comment = serializer.save()
             course.comments.add(comment)
             return Response(status=status.HTTP_201_CREATED)
         else:
@@ -103,14 +105,15 @@ class CourseStudy(APIView):
         return Response(serializer.data, status = status.HTTP_200_OK)
 
 class CartAPI(APIView):
-    serializer_class = ProductSerializer
+    serializer_class = ProductSerializer 
 
     def get(self, request, format=None):
-        qs = Cart.objects.all()
+        user_cart = Cart.objects.filter(user=request.user)
+        
         return Response(
-            {"data": self.serializer_class(qs, many=True).data}, 
+            {"data": self.serializer_class(user_cart, many=True).data},
             status=status.HTTP_200_OK
-            )
+        )
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)

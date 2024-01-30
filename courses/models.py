@@ -86,7 +86,7 @@ class Episode(models.Model):
         return self.title
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.CharField(max_length = 50, default = 'Harsh414',blank  = True)
     message=models.TextField()
     created=models.DateTimeField(auto_now_add=True)
 

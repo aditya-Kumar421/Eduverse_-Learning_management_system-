@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "users",
     'knox',
     "rest_framework",
+    # 'drf_yasg',
 ]
 
 MIDDLEWARE = [
