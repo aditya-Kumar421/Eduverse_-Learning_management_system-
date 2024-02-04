@@ -94,7 +94,7 @@ class Comment(models.Model):
         return self.message
 
 class Cart(models.Model):
-    title=models.CharField(max_length = 250)
+    title=models.CharField(max_length = 250, unique = True)
     author = models.CharField(max_length=100, blank=True)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     image_url = models.URLField(default = 'https://www.eduversesummit.org/wp-content/uploads/2023/10/eduverse-logo-without-dates-420x323.png')
