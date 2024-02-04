@@ -66,6 +66,12 @@ class CourseListSerailizer(ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
-        exclude=['id']
+        fields = [
+            'id',
+            'title',
+            'author',
+            'price',
+            'image_url',
+        ]
 
 

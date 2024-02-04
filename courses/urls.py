@@ -7,9 +7,11 @@ from courses.views import (
     AddComment,
     CourseStudy,
     CartAPI,
+    CartRemoveAPI,
 )
 
 urlpatterns = [
+    path("cart/<int:pk>/",CartRemoveAPI.as_view(), name="cart"),
     path("cart/",CartAPI.as_view(), name="cart"),
     path("detail/<uuid:course_uuid>/", CourseDetail.as_view()),
     path("search/<str:search_term>/", SearchCourse.as_view()),
