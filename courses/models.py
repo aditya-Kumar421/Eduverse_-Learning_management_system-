@@ -97,7 +97,7 @@ class Cart(models.Model):
     title=models.CharField(max_length = 250, unique = True)
     author = models.CharField(max_length=100, blank=True)
     price = models.DecimalField(max_digits=5, decimal_places=2)
-    image_url = models.URLField(default = 'https://www.eduversesummit.org/wp-content/uploads/2023/10/eduverse-logo-without-dates-420x323.png')
+    image_url = models.URLField(default = 'https://assets-global.website-files.com/62e95dddfb380a0e61193e7d/634970c7cbeed5644711b937_62fd57ccd6890f25796f92f9_AdobeStock_295461823.jpeg',blank=True)
 
     def __str__(self):
         return self.title
