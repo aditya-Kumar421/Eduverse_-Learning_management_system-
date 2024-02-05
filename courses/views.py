@@ -1,16 +1,16 @@
 from .serializers import *
 from courses.models import Sector, Course, Cart
+
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
+from django.http import Http404
+from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
+from django.db.models import Q
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import serializers
-
-# from rest_framework.generics import GenericAPIView
-
-from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
-from django.db.models import Q
 
 
 class CoursesHomeView(APIView):
@@ -140,11 +140,17 @@ class CartAPI(APIView):
         
 class CartRemoveAPI(APIView):
     def get(self, request, pk):
-        user_cart = Cart.objects.get(pk = pk)
-        serializer = ProductSerializer(user_cart)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        try:
+            user_cart = Cart.objects.get(pk=pk)
+            serializer = ProductSerializer(user_cart)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Cart.DoesNotExist:
+            raise Http404("Cart not found")
 
     def delete(self, request, pk):
-        qus = Cart.objects.get(pk=pk)
-        qus.delete()
-        return Response({"Course removed successfully!"})
+        try:
+            qus = Cart.objects.get(pk=pk)
+            qus.delete()
+            return Response({"Course removed successfully!"})
+        except Cart.DoesNotExist:
+            raise Http404("Cart not found")
